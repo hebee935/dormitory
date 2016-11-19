@@ -15,12 +15,20 @@ package emirim.hs.kr.dormitory;
         import com.google.firebase.auth.FirebaseAuth;
         import emirim.hs.kr.dormitory.fragment.RecentPostsFragment;
 
+        import static emirim.hs.kr.dormitory.R.id.tabLayout;
+
 public class  MainActivity extends BaseActivity {
 
     private static final String TAG = "MainActivity";
 
     private FragmentPagerAdapter mPagerAdapter;
     private ViewPager mViewPager;
+    private final int[] ICONS = {
+            R.drawable.this1,
+            R.drawable.this2,
+            R.drawable.this3,
+            R.drawable.this4
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,30 +49,28 @@ public class  MainActivity extends BaseActivity {
                     "같이해",
                     "모르지"
             };
-            private final int[] ICONS = {
-                    R.drawable.this1,
-                    R.drawable.this2,
-                    R.drawable.this3,
-                    R.drawable.this4
-            };
+
             @Override
             public Fragment getItem(int position) {
                 return mFragments[position];
             }
-            @Override
             public int getCount() {
                 return mFragments.length;
             }
+            /*
             @Override
             public CharSequence getPageTitle(int position) {
                 return mFragmentNames[position];
-            }
+            }*/
         };
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mPagerAdapter);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
+        for(int i=0;i<tabLayout.getTabCount();i++) {
+            tabLayout.getTabAt(i).setIcon(ICONS[i]);
+        }
 
         // Button launches NewPostActivity
         findViewById(R.id.fab_new_post).setOnClickListener(new View.OnClickListener() {
@@ -85,8 +91,8 @@ public class  MainActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int i = item.getItemId();
         if (i == R.id.action_logout) {
-            FirebaseAuth.getInstance().signOut();
-            startActivity(new Intent(this, FacebookLoginActivity.class));
+            new FacebookLoginActivity().signOut();
+            startActivity(new Intent(this, SignInActivity.class));
             finish();
             return true;
         } else {

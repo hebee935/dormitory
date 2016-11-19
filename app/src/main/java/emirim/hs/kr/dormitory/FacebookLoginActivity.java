@@ -41,11 +41,18 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.io.BufferedInputStream;
+import java.net.URLConnection;
+
+import emirim.hs.kr.dormitory.models.UserLogin;
 
 /**
  * Demonstrate Firebase Authentication using a Facebook access token.
  */
-public class FacebookLoginActivity extends BaseActivity implements
+public class FacebookLoginActivity extends BaseActivity2 implements
         View.OnClickListener {
 
     private static final String TAG = "FacebookLogin";
@@ -53,12 +60,15 @@ public class FacebookLoginActivity extends BaseActivity implements
     // [START declare_auth]
     private FirebaseAuth mAuth;
     // [END declare_auth]
+    private DatabaseReference mDatabase;
 
     // [START declare_auth_listener]
     private FirebaseAuth.AuthStateListener mAuthListener;
     // [END declare_auth_listener]
 
     private CallbackManager mCallbackManager;
+    String name,email;
+    Uri photoUrl;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -73,6 +83,7 @@ public class FacebookLoginActivity extends BaseActivity implements
         // [START initialize_auth]
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
         // [END initialize_auth]
 
         // [START auth_state_listener]
@@ -83,9 +94,9 @@ public class FacebookLoginActivity extends BaseActivity implements
                 if (user != null) {
                     // User is signed in
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                    String name = user.getDisplayName();
-                    String email = user.getEmail();
-                    Uri photoUrl = user.getPhotoUrl();
+                    name = user.getDisplayName();
+                    email = user.getEmail();
+                    photoUrl = user.getPhotoUrl();
                     UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                             .setDisplayName("Jane Q. User")
                             .setPhotoUri(Uri.parse("https://example.com/jane-q-user/profile.jpg"))
@@ -126,6 +137,7 @@ public class FacebookLoginActivity extends BaseActivity implements
             @Override
             public void onSuccess(LoginResult loginResult) {
                 Log.d(TAG, "facebook:onSuccess:" + loginResult);
+                writeNewUser(loginResult.toString(),name,email);
                 handleFacebookAccessToken(loginResult.getAccessToken());
             }
 
@@ -171,7 +183,7 @@ public class FacebookLoginActivity extends BaseActivity implements
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         mCallbackManager.onActivityResult(requestCode, resultCode, data);
-
+        startActivity(new Intent(FacebookLoginActivity.this,OpenRoomActivity.class));
     }
 
     // [START auth_with_facebook]
@@ -229,5 +241,10 @@ public class FacebookLoginActivity extends BaseActivity implements
         if (i == R.id.button_facebook_signout) {
             signOut();
         }
+    }
+    private void writeNewUser(String userId, String name, String email) {
+        UserLogin user = new UserLogin(name, email);
+
+        mDatabase.child("users").child(userId).setValue(user);
     }
 }

@@ -121,7 +121,7 @@ public class SignInActivity extends BaseActivity2 implements View.OnClickListene
         writeNewUser(user.getUid(), username, user.getEmail());
 
         // Go to MainActivity
-        startActivity(new Intent(SignInActivity.this, MainActivity.class));
+        startActivity(new Intent(SignInActivity.this, OpenRoomActivity.class));
         finish();
     }
 

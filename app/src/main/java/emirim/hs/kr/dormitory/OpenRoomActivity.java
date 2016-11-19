@@ -71,7 +71,7 @@ public class OpenRoomActivity extends AppCompatActivity implements View.OnClickL
                                 }
                                 if (wantToCloseDialog) {
                                     dialog1.dismiss();
-                                    startActivity(new Intent(OpenRoomActivity.this, FragmentViewActivity.class));
+                                    startActivity(new Intent(OpenRoomActivity.this, MainActivity.class));
                                 }
                             }
                         });
@@ -112,7 +112,7 @@ public class OpenRoomActivity extends AppCompatActivity implements View.OnClickL
                                 }
                                 if (wantToCloseDialog) {
                                     dialog2.dismiss();
-                                    startActivity(new Intent(OpenRoomActivity.this,FragmentViewActivity.class));
+                                    startActivity(new Intent(OpenRoomActivity.this,MainActivity.class));
                                 }
                             }
                         });
