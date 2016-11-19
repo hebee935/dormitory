@@ -35,6 +35,12 @@ public class  MainActivity extends BaseActivity {
                     new FragmentTimeBoard(),
                     new FragmentNotice()
             };
+            private final String[] mFragmentNames = new String[] {
+                    "우리야",
+                    "사오렴",
+                    "같이해",
+                    "모르지"
+            };
             private final int[] ICONS = {
                     R.drawable.this1,
                     R.drawable.this2,
@@ -49,7 +55,10 @@ public class  MainActivity extends BaseActivity {
             public int getCount() {
                 return mFragments.length;
             }
-
+            @Override
+            public CharSequence getPageTitle(int position) {
+                return mFragmentNames[position];
+            }
         };
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
