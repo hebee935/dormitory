@@ -8,7 +8,7 @@ package emirim.hs.kr.dormitory.models;
 // [START blog_user_class]
 public class User {
 
-    private String work;
+    public String work;
     private int year;
     private int month;
     private int date;

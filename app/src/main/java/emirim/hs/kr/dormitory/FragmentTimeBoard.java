@@ -22,7 +22,7 @@ public class FragmentTimeBoard extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-            }
+    }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         RelativeLayout v=(RelativeLayout) inflater.inflate(R.layout.fragment_timeboard, container, false);
