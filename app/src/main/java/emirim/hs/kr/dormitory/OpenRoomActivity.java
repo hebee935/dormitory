@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 /**
@@ -20,6 +21,7 @@ public class OpenRoomActivity extends AppCompatActivity implements View.OnClickL
     Button makeRoom,enterRoom;
     EditText roomPwSet,roomPwChk;
     EditText roomNumber,roomPw;
+    TextView roomNumberRandom;
     int canClose=0;
     public void onCreate(Bundle savedInstanceState){
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -27,8 +29,10 @@ public class OpenRoomActivity extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.activity_open_room);
         makeRoom = (Button)findViewById(R.id.makeRoom);
         enterRoom = (Button)findViewById(R.id.enterRoom);
+
         makeRoom.setOnClickListener(this);
         enterRoom.setOnClickListener(this);
+
     }
 
     @Override
@@ -38,9 +42,12 @@ public class OpenRoomActivity extends AppCompatActivity implements View.OnClickL
             case R.id.makeRoom:
                 LayoutInflater inflater1=getLayoutInflater();
                 final View dialogView1= inflater1.inflate(R.layout.activity_room_form, null);
+
                 AlertDialog.Builder buider1= new AlertDialog.Builder(this);
                 buider1.setTitle("방 생성하기");
                 buider1.setView(dialogView1);
+                roomNumberRandom = (TextView)dialogView1.findViewById(R.id.room_ran_num);
+                roomNumberRandom.setText("새ㅔ빈");
                 roomPwSet = (EditText) dialogView1.findViewById(R.id.room_pw_set);
                 roomPwChk = (EditText)dialogView1.findViewById(R.id.room_pw_chk);
                 buider1.setPositiveButton("Create", new DialogInterface.OnClickListener() {

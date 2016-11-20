@@ -16,6 +16,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="방 번호 : " />
+        <TextView
+            android:id="@+id/room_ran_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="" />
 
     </LinearLayout>
 
