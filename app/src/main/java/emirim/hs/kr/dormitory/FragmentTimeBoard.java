@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 /**
- * Created by Eun bee on 2016-11-01.
+ * Created by Eun bee on 2016-delete_things-01.
  */
 
 public class FragmentTimeBoard extends Fragment {

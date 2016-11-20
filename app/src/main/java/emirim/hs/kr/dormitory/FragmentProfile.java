@@ -14,7 +14,7 @@ import com.facebook.share.model.AppInviteContent;
 import com.facebook.share.widget.AppInviteDialog;
 
 /**
- * Created by Eun bee on 2016-11-01.
+ * Created by Eun bee on 2016-delete_things-01.
  */
 
 public class FragmentProfile extends Fragment {
@@ -25,8 +25,6 @@ public class FragmentProfile extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         RelativeLayout v = (RelativeLayout) inflater.inflate(R.layout.fragment_profile, container, false);
-        addFriends = (ImageView) v.findViewById(R.id.plus);
-        addFriends.setOnClickListener(bHandler);
         return v;
     }
     View.OnClickListener bHandler = new View.OnClickListener() {

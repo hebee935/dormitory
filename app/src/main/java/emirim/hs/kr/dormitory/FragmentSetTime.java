@@ -17,7 +17,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 /**
- * Created by Eun bee on 2016-11-07.
+ * Created by Eun bee on 2016-delete_things-07.
  */
 
 public class FragmentSetTime extends DialogFragment {

@@ -14,7 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 /**
- * Created by Eun bee on 2016-11-18.
+ * Created by Eun bee on 2016-delete_things-18.
  */
 
 public class OpenRoomActivity extends AppCompatActivity implements View.OnClickListener{
@@ -24,7 +24,6 @@ public class OpenRoomActivity extends AppCompatActivity implements View.OnClickL
     TextView roomNumberRandom;
     int canClose=0;
     public void onCreate(Bundle savedInstanceState){
-        supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_open_room);
         makeRoom = (Button)findViewById(R.id.makeRoom);

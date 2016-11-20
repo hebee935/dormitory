@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 /**
- * Created by Eun bee on 2016-11-08.
+ * Created by Eun bee on 2016-delete_things-08.
  */
 
 public class FragmentNoticeRule extends Fragment {

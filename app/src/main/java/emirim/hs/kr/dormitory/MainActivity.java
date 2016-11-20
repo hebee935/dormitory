@@ -39,8 +39,8 @@ public class  MainActivity extends BaseActivity {
         mPagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
             private final Fragment[] mFragments = new Fragment[] {
                     new FragmentProfile(),
+                    new FragmentBuy(),
                     new RecentPostsFragment(),
-                    new FragmentTimeBoard(),
                     new FragmentNotice()
             };
             private final String[] mFragmentNames = new String[] {
@@ -71,12 +71,55 @@ public class  MainActivity extends BaseActivity {
         for(int i=0;i<tabLayout.getTabCount();i++) {
             tabLayout.getTabAt(i).setIcon(ICONS[i]);
         }
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                switch(position){
+                    case 1:
+                        findViewById(R.id.fab_new_post).setVisibility(View.GONE);
+                        findViewById(R.id.fab_add_buy).setVisibility(View.VISIBLE);
+                        findViewById(R.id.fab_delete_buy).setVisibility(View.VISIBLE);
+                        break;
+                    case 0:case 3:
+                        findViewById(R.id.fab_new_post).setVisibility(View.GONE);
+                        findViewById(R.id.fab_add_buy).setVisibility(View.GONE);
+                        findViewById(R.id.fab_delete_buy).setVisibility(View.GONE);
+                        break;
+                    case 2: findViewById(R.id.fab_new_post).setVisibility(View.VISIBLE);
+                        findViewById(R.id.fab_add_buy).setVisibility(View.GONE);
+                        findViewById(R.id.fab_delete_buy).setVisibility(View.GONE);
+                        break;
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
         // Button launches NewPostActivity
         findViewById(R.id.fab_new_post).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, NewPostActivity.class));
+            }
+        });
+        findViewById(R.id.fab_add_buy).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        findViewById(R.id.fab_delete_buy).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, DialogFragmentBuy.class));
             }
         });
     }
@@ -91,7 +134,7 @@ public class  MainActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int i = item.getItemId();
         if (i == R.id.action_logout) {
-            new FacebookLoginActivity().signOut();
+            FirebaseAuth.getInstance().signOut();
             startActivity(new Intent(this, SignInActivity.class));
             finish();
             return true;

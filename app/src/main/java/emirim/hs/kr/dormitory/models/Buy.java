@@ -1,7 +1,7 @@
 package emirim.hs.kr.dormitory.models;
 
 /**
- * Created by Student on 2016-11-15.
+ * Created by Student on 2016-delete_things-15.
  */
 
 

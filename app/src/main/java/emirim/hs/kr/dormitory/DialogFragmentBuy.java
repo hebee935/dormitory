@@ -12,7 +12,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 /**
- * Created by Eun bee on 2016-11-10.
+ * Created by Eun bee on 2016-delete_things-10.
  */
 
 public class DialogFragmentBuy extends DialogFragment {

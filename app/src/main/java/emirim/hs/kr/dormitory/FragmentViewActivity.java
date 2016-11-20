@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 
 /**
- * Created by Eun bee on 2016-11-01.
+ * Created by Eun bee on 2016-delete_things-01.
  */
 
 public class FragmentViewActivity extends AppCompatActivity {

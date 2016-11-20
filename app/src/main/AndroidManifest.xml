@@ -29,7 +29,8 @@
             android:label="@string/app_name" />
         <activity android:name=".FragmentViewActivity"/>
         <activity android:name=".BaseActivity"/>
-        <activity android:name=".FacebookLoginActivity"/>
+        <activity android:name=".FacebookLoginActivity">
+        </activity>
         <activity android:name=".OpenRoomActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 /**
- * Created by Eun bee on 2016-11-08.
+ * Created by Eun bee on 2016-delete_things-08.
  */
 
 public class FragmentNoticeSchedule extends Fragment {

@@ -1,7 +1,7 @@
 package emirim.hs.kr.dormitory.models;
 
 /**
- * Created by Eun bee on 2016-11-19.
+ * Created by Eun bee on 2016-delete_things-19.
  */
 import com.google.firebase.database.Exclude;
 

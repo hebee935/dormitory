@@ -1,7 +1,7 @@
 package emirim.hs.kr.dormitory.models;
 
 /**
- * Created by Eun bee on 2016-11-18.
+ * Created by Eun bee on 2016-delete_things-18.
  */
 
 public class Room {
