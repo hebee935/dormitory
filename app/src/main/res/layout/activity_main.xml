@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:src="@drawable/delete_things"
+        android:src="@drawable/minus"
         android:visibility="gone"
         android:layout_margin="16dp"/>
 
@@ -42,11 +42,11 @@
         android:id="@+id/fab_add_buy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/add_things"
+        android:src="@drawable/plus"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_marginRight="16dp"
         android:visibility="gone"
-        android:layout_marginBottom="60dp"/>
+        android:layout_marginBottom="80dp"/>
 
 </RelativeLayout>

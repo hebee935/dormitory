@@ -10,22 +10,23 @@ import android.os.Message;
  * Created by Eun bee on 2016-10-24.
  */
 public class SplashActivity extends Activity{
-    public void onCreate(Bundle savedInstanceState){
-        super.onCreate(savedInstanceState);
+    private final int SPLASH_DISPLAY_LENGTH = 1000;
+
+    /** 처음 액티비티가 생성될때 불려진다. */
+    @Override
+    public void onCreate(Bundle icicle) {
+        super.onCreate(icicle);
         setContentView(R.layout.activity_splash);
 
-        Handler handler = new Handler(){
-            public void handleMessage(Message msg){
-                finish();
+        /* SPLASH_DISPLAY_LENGTH 뒤에 메뉴 액티비티를 실행시키고 종료한다.*/
+        new Handler().postDelayed(new Runnable(){
+            @Override
+            public void run() {
+                /* 메뉴액티비티를 실행하고 로딩화면을 죽인다.*/
+                Intent mainIntent = new Intent(SplashActivity.this,SignInActivity.class);
+                SplashActivity.this.startActivity(mainIntent);
+                SplashActivity.this.finish();
             }
-        };
-
-        handler.sendEmptyMessageDelayed(0,2000);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        startActivity(new Intent(this,FacebookLoginActivity.class));
+        }, SPLASH_DISPLAY_LENGTH);
     }
 }
