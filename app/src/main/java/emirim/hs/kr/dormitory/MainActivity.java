@@ -8,19 +8,24 @@ package emirim.hs.kr.dormitory;
         import android.support.v4.app.Fragment;
         import android.support.v4.app.FragmentPagerAdapter;
         import android.support.v4.view.ViewPager;
+        import android.support.v7.widget.Toolbar;
         import android.view.Menu;
         import android.view.MenuItem;
         import android.view.View;
+        import android.widget.Toast;
 
         import com.google.firebase.auth.FirebaseAuth;
-        import emirim.hs.kr.dormitory.fragment.RecentPostsFragment;
 
-        import static emirim.hs.kr.dormitory.R.id.tabLayout;
+        import emirim.hs.kr.dormitory.fragment.MyPostsFragment;
+        import emirim.hs.kr.dormitory.fragment.RecentBuyFragment;
+        import emirim.hs.kr.dormitory.fragment.RecentPostsFragment;
 
 public class  MainActivity extends BaseActivity {
 
     private static final String TAG = "MainActivity";
-
+    private final long FINISH_INTERVAL_TIME = 2000;
+    private long   backPressedTime = 0;
+    private int canexit = 0;
     private FragmentPagerAdapter mPagerAdapter;
     private ViewPager mViewPager;
     private final int[] ICONS = {
@@ -34,11 +39,12 @@ public class  MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getSupportActionBar().setTitle("우리야");
         // Create the adapter that will return a fragment for each section
         mPagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
             private final Fragment[] mFragments = new Fragment[] {
                     new FragmentProfile(),
-                    new FragmentBuy(),
+                    new RecentBuyFragment(),
                     new RecentPostsFragment(),
                     new FragmentNotice()
             };
@@ -79,20 +85,29 @@ public class  MainActivity extends BaseActivity {
             @Override
             public void onPageSelected(int position) {
                 switch(position){
+                    case 0:
+                        getSupportActionBar().setTitle("우리야");
+                        canexit=0;
+                        findViewById(R.id.fab_new_post).setVisibility(View.GONE);
+                        findViewById(R.id.fab_new_buy).setVisibility(View.GONE);
+                        break;
                     case 1:
+                        getSupportActionBar().setTitle("사오렴");
+                        canexit=1;
                         findViewById(R.id.fab_new_post).setVisibility(View.GONE);
-                        findViewById(R.id.fab_add_buy).setVisibility(View.VISIBLE);
-                        findViewById(R.id.fab_delete_buy).setVisibility(View.VISIBLE);
+                        findViewById(R.id.fab_new_buy).setVisibility(View.VISIBLE);
                         break;
-                    case 0:case 3:
+                    case 2:
+                        getSupportActionBar().setTitle("같이해");
+                        canexit=2;
+                        findViewById(R.id.fab_new_post).setVisibility(View.VISIBLE);
+                        findViewById(R.id.fab_new_buy).setVisibility(View.GONE);
+                        break;
+                    case 3:
+                        getSupportActionBar().setTitle("모르지");
+                        canexit=3;
                         findViewById(R.id.fab_new_post).setVisibility(View.GONE);
-                        findViewById(R.id.fab_add_buy).setVisibility(View.GONE);
-                        findViewById(R.id.fab_delete_buy).setVisibility(View.GONE);
-                        break;
-                    case 2: findViewById(R.id.fab_new_post).setVisibility(View.VISIBLE);
-                        findViewById(R.id.fab_add_buy).setVisibility(View.GONE);
-                        findViewById(R.id.fab_delete_buy).setVisibility(View.GONE);
-                        break;
+                        findViewById(R.id.fab_new_buy).setVisibility(View.GONE);
                 }
             }
 
@@ -109,16 +124,10 @@ public class  MainActivity extends BaseActivity {
                 startActivity(new Intent(MainActivity.this, NewPostActivity.class));
             }
         });
-        findViewById(R.id.fab_add_buy).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.fab_new_buy).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-            }
-        });
-        findViewById(R.id.fab_delete_buy).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, DialogFragmentBuy.class));
+                startActivity(new Intent(MainActivity.this, NewBuyActivity.class));
             }
         });
     }
@@ -142,4 +151,24 @@ public class  MainActivity extends BaseActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        long tempTime = System.currentTimeMillis();
+        long intervalTime = tempTime - backPressedTime;
+        switch (canexit){
+            case 0:
+                if (0 <= intervalTime && FINISH_INTERVAL_TIME >= intervalTime)
+                {
+                    super.onBackPressed();
+                }
+                else
+                {
+                    backPressedTime = tempTime;
+                    Toast.makeText(getApplicationContext(), "종료하시려면 뒤로가기를 한 번더 눌러주세요", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            case 1:case 2:case 3:
+                mViewPager.setCurrentItem(0);break;
+        }
+    }
 }

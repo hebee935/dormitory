@@ -20,23 +20,11 @@ import android.widget.RelativeLayout;
 
 public class FragmentNotice extends Fragment {
     ImageView imgVSchedule,imgVRule;
-    FragmentViewActivity fva;
     ViewGroup container;
     FragmentTransaction tr;
     LinearLayout linear;
     RelativeLayout relative;
     public FragmentNotice(){}
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-/*
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        Activity activity=(Activity)context;
-        fva=(FragmentViewActivity)activity;
-    }
-*/
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         this.container=container;
         FrameLayout v=(FrameLayout) inflater.inflate(R.layout.fragment_notice, container, false);

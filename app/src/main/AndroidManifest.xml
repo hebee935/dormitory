@@ -33,7 +33,6 @@
         <activity android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name" />
-        <activity android:name=".FragmentViewActivity"/>
         <activity android:name=".BaseActivity"/>
         <activity android:name=".FacebookLoginActivity">
         </activity>
@@ -57,6 +56,10 @@
         <activity android:name=".NewPostActivity" />
 
         <activity android:name=".PostDetailActivity"
+        android:windowSoftInputMode="adjustPan"></activity>
+
+        <activity android:name=".NewBuyActivity" />
+        <activity android:name=".BuyDetailActivity"
             android:windowSoftInputMode="adjustPan"></activity>
 
         <!-- [START firebase_service] -->

@@ -13,14 +13,16 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import emirim.hs.kr.dormitory.models.Post;
-import emirim.hs.kr.dormitory.models.User;
-import emirim.hs.kr.dormitory.models.UserLogin;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class NewPostActivity extends BaseActivity2 {
+import emirim.hs.kr.dormitory.models.Buy;
+import emirim.hs.kr.dormitory.models.Post;
+import emirim.hs.kr.dormitory.models.User;
+import emirim.hs.kr.dormitory.models.UserLogin;
+
+public class NewBuyActivity extends BaseActivity2 {
 
     private static final String TAG = "NewPostActivity";
     private static final String REQUIRED = "Required";
@@ -36,7 +38,7 @@ public class NewPostActivity extends BaseActivity2 {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_post);
+        setContentView(R.layout.activity_new_buy);
 
         // [START initialize_database_ref]
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -44,17 +46,17 @@ public class NewPostActivity extends BaseActivity2 {
 
         mTitleField = (EditText) findViewById(R.id.field_title);
         mBodyField = (EditText) findViewById(R.id.field_body);
-        mSubmitButton = (FloatingActionButton) findViewById(R.id.fab_submit_post);
+        mSubmitButton = (FloatingActionButton) findViewById(R.id.fab_submit_buy);
 
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                submitPost();
+                submitBuy();
             }
         });
     }
 
-    private void submitPost() {
+    private void submitBuy() {
         final String title = mTitleField.getText().toString();
         final String body = mBodyField.getText().toString();
 
@@ -72,7 +74,6 @@ public class NewPostActivity extends BaseActivity2 {
 
         // Disable button so there are no multi-posts
         setEditingEnabled(false);
-        Toast.makeText(this, "Posting...", Toast.LENGTH_SHORT).show();
 
         // [START single_value_read]
         final String userId = getUid();
@@ -87,12 +88,12 @@ public class NewPostActivity extends BaseActivity2 {
                         if (user == null) {
                             // User is null, error out
                             Log.e(TAG, "User " + userId + " is unexpectedly null");
-                            Toast.makeText(NewPostActivity.this,
+                            Toast.makeText(NewBuyActivity.this,
                                     "Error: could not fetch user.",
                                     Toast.LENGTH_SHORT).show();
                         } else {
                             // Write new post
-                            writeNewPost(userId, user.username, title, body);
+                            writeNewBuy(userId, user.username, title, body);
                         }
 
                         // Finish this Activity, back to the stream
@@ -123,16 +124,16 @@ public class NewPostActivity extends BaseActivity2 {
     }
 
     // [START write_fan_out]
-    private void writeNewPost(String userId, String username, String title, String body) {
+    private void writeNewBuy(String userId, String username, String title, String body) {
         // Create new post at /user-posts/$userid/$postid and at
         // /posts/$postid simultaneously
-        String key = mDatabase.child("posts").push().getKey();
-        Post post = new Post(userId, username, title, body);
-        Map<String, Object> postValues = post.toMap();
+        String key = mDatabase.child("buy").push().getKey();
+        Buy buy = new Buy(userId, username, title, body);
+        Map<String, Object> buyValues = buy.toMap();
 
         Map<String, Object> childUpdates = new HashMap<>();
-        childUpdates.put("/posts/" + key, postValues);
-        childUpdates.put("/user-posts/" + userId + "/" + key, postValues);
+        childUpdates.put("/buy/" + key, buyValues);
+        childUpdates.put("/user-buy/" + userId + "/" + key, buyValues);
 
         mDatabase.updateChildren(childUpdates);
     }

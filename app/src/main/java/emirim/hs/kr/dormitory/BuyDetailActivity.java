@@ -19,24 +19,26 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import emirim.hs.kr.dormitory.models.User;
-import emirim.hs.kr.dormitory.models.Comment;
-import emirim.hs.kr.dormitory.models.Post;
-import emirim.hs.kr.dormitory.models.UserLogin;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PostDetailActivity extends BaseActivity2 implements View.OnClickListener {
+import emirim.hs.kr.dormitory.models.Buy;
+import emirim.hs.kr.dormitory.models.Comment;
+import emirim.hs.kr.dormitory.models.Post;
+import emirim.hs.kr.dormitory.models.User;
+import emirim.hs.kr.dormitory.models.UserLogin;
 
-    private static final String TAG = "PostDetailActivity";
+public class BuyDetailActivity extends BaseActivity2 implements View.OnClickListener {
 
-    public static final String EXTRA_POST_KEY = "post_key";
+    private static final String TAG = "BuyDetailActivity";
 
-    private DatabaseReference mPostReference;
+    public static final String EXTRA_BUY_KEY = "buy_key";
+
+    private DatabaseReference mBuyReference;
     private DatabaseReference mCommentsReference;
-    private ValueEventListener mPostListener;
-    private String mPostKey;
+    private ValueEventListener mBuyListener;
+    private String mBuyKey;
     private CommentAdapter mAdapter;
 
     private TextView mAuthorView;
@@ -49,26 +51,26 @@ public class PostDetailActivity extends BaseActivity2 implements View.OnClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_post_detail);
+        setContentView(R.layout.activity_buy_detail);
 
         // Get post key from intent
-        mPostKey = getIntent().getStringExtra(EXTRA_POST_KEY);
-        if (mPostKey == null) {
-            throw new IllegalArgumentException("Must pass EXTRA_POST_KEY");
+        mBuyKey = getIntent().getStringExtra(EXTRA_BUY_KEY);
+        if (mBuyKey == null) {
+            throw new IllegalArgumentException("Must pass EXTRA_BUY_KEY");
         }
 
         // Initialize Database
-        mPostReference = FirebaseDatabase.getInstance().getReference()
-                .child("posts").child(mPostKey);
+        mBuyReference = FirebaseDatabase.getInstance().getReference()
+                .child("buy").child(mBuyKey);
         mCommentsReference = FirebaseDatabase.getInstance().getReference()
-                .child("post-comments").child(mPostKey);
+                .child("buy-comments").child(mBuyKey);
 
         // Initialize Views
-        mAuthorView = (TextView) findViewById(R.id.post_author);
-        mTitleView = (TextView) findViewById(R.id.post_title);
-        mBodyView = (TextView) findViewById(R.id.post_body);
+        mAuthorView = (TextView) findViewById(R.id.buy_author);
+        mTitleView = (TextView) findViewById(R.id.buy_title);
+        mBodyView = (TextView) findViewById(R.id.buy_body);
         mCommentField = (EditText) findViewById(R.id.field_comment_text);
-        mCommentButton = (Button) findViewById(R.id.button_post_comment);
+        mCommentButton = (Button) findViewById(R.id.button_buy_comment);
         mCommentsRecycler = (RecyclerView) findViewById(R.id.recycler_comments);
 
         mCommentButton.setOnClickListener(this);
@@ -82,15 +84,15 @@ public class PostDetailActivity extends BaseActivity2 implements View.OnClickLis
 
         // Add value event listener to the post
         // [START post_value_event_listener]
-        ValueEventListener postListener = new ValueEventListener() {
+        ValueEventListener buyListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // Get Post object and use the values to update the UI
-                Post post = dataSnapshot.getValue(Post.class);
+                Buy buy = dataSnapshot.getValue(Buy.class);
                 // [START_EXCLUDE]
-                mAuthorView.setText(post.author);
-                mTitleView.setText(post.title);
-                mBodyView.setText(post.body);
+                mAuthorView.setText(buy.author);
+                mTitleView.setText(buy.title);
+                mBodyView.setText(buy.body);
                 // [END_EXCLUDE]
             }
 
@@ -99,16 +101,16 @@ public class PostDetailActivity extends BaseActivity2 implements View.OnClickLis
                 // Getting Post failed, log a message
                 Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
                 // [START_EXCLUDE]
-                Toast.makeText(PostDetailActivity.this, "Failed to load post.",
+                Toast.makeText(BuyDetailActivity.this, "Failed to load post.",
                         Toast.LENGTH_SHORT).show();
                 // [END_EXCLUDE]
             }
         };
-        mPostReference.addValueEventListener(postListener);
+        mBuyReference.addValueEventListener(buyListener);
         // [END post_value_event_listener]
 
         // Keep copy of post listener so we can remove it when app stops
-        mPostListener = postListener;
+        mBuyListener = buyListener;
 
         // Listen for comments
         mAdapter = new CommentAdapter(this, mCommentsReference);
@@ -120,8 +122,8 @@ public class PostDetailActivity extends BaseActivity2 implements View.OnClickLis
         super.onStop();
 
         // Remove post value event listener
-        if (mPostListener != null) {
-            mPostReference.removeEventListener(mPostListener);
+        if (mBuyListener != null) {
+            mBuyReference.removeEventListener(mBuyListener);
         }
 
         // Clean up comments listener
@@ -131,12 +133,12 @@ public class PostDetailActivity extends BaseActivity2 implements View.OnClickLis
     @Override
     public void onClick(View v) {
         int i = v.getId();
-        if (i == R.id.button_post_comment) {
-            postComment();
+        if (i == R.id.button_buy_comment) {
+            buyComment();
         }
     }
 
-    private void postComment() {
+    private void buyComment() {
         final String uid = getUid();
         FirebaseDatabase.getInstance().getReference().child("users").child(uid)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
@@ -172,8 +174,8 @@ public class PostDetailActivity extends BaseActivity2 implements View.OnClickLis
         public CommentViewHolder(View itemView) {
             super(itemView);
 
-            authorView = (TextView) itemView.findViewById(R.id.comment_author);
-            bodyView = (TextView) itemView.findViewById(R.id.comment_body);
+            authorView = (TextView) itemView.findViewById(R.id.comment_author_buy);
+            bodyView = (TextView) itemView.findViewById(R.id.comment_body_buy);
         }
     }
 
@@ -268,7 +270,7 @@ public class PostDetailActivity extends BaseActivity2 implements View.OnClickLis
 
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
-                    Log.w(TAG, "postComments:onCancelled", databaseError.toException());
+                    Log.w(TAG, "buyComments:onCancelled", databaseError.toException());
                     Toast.makeText(mContext, "Failed to load comments.",
                             Toast.LENGTH_SHORT).show();
                 }
@@ -283,7 +285,7 @@ public class PostDetailActivity extends BaseActivity2 implements View.OnClickLis
         @Override
         public CommentViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater inflater = LayoutInflater.from(mContext);
-            View view = inflater.inflate(R.layout.item_comment, parent, false);
+            View view = inflater.inflate(R.layout.item_comment_buy, parent, false);
             return new CommentViewHolder(view);
         }
 
