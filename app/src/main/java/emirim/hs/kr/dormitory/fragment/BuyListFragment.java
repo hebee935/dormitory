@@ -65,8 +65,7 @@ public abstract class BuyListFragment extends Fragment {
 
         // Set up Layout Manager, reverse layout
         mManager = new GridLayoutManager(getActivity(),2);
-        mManager.setReverseLayout(true);
-        mManager.setStackFromEnd(true);
+        //mManager.setStackFromEnd(true);
         mRecycler.setLayoutManager(mManager);
 
         // Set up FirebaseRecyclerAdapter with the Query

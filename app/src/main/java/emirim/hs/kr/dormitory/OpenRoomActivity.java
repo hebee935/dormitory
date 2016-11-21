@@ -13,16 +13,28 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import emirim.hs.kr.dormitory.models.Room;
+import emirim.hs.kr.dormitory.models.User;
+import emirim.hs.kr.dormitory.models.UserLogin;
+
 /**
  * Created by Eun bee on 2016-delete_things-18.
  */
 
 public class OpenRoomActivity extends AppCompatActivity implements View.OnClickListener{
+    int roomNum = 1000;
+    private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+    private DatabaseReference databaseReference = firebaseDatabase.getReference();
     Button makeRoom,enterRoom;
     EditText roomPwSet,roomPwChk;
     EditText roomNumber,roomPw;
     TextView roomNumberRandom;
+    String passwd;
     int canClose=0;
+    UserLogin userid;
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_open_room);
@@ -69,6 +81,11 @@ public class OpenRoomActivity extends AppCompatActivity implements View.OnClickL
                             public void onClick(View v) {
                                 Boolean wantToCloseDialog = true;
                                 if(roomPwSet.getText().toString().equals(roomPwChk.getText().toString())) {
+
+                                    passwd = roomPwSet.getText().toString();
+                                    Room room = new Room(roomNum,passwd);
+                                    databaseReference.child("room").push().setValue(room);
+                                    //databaseReference.child("room").child("user").push().setValue("유저아이디"); 어떻게 가져올까 Silver Rain 아............?
                                     Toast.makeText(OpenRoomActivity.this, "새로운 방을 생성했습니다", Toast.LENGTH_SHORT).show();
                                     wantToCloseDialog = true;
                                 }else{
