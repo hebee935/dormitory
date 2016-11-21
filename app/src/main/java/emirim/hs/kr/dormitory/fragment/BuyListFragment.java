@@ -78,6 +78,22 @@ public abstract class BuyListFragment extends Fragment {
 
                 // Set click listener for the whole post view
                 final String buyKey = buyRef.getKey();
+                int color = (int)(Math.random()*12)+1;
+                switch (color){
+                    case 1: viewHolder.itemView.setBackgroundColor(getResources().getColor(R.color.color1));break;
+                    case 2: viewHolder.itemView.setBackgroundColor(getResources().getColor(R.color.color2));break;
+                    case 3: viewHolder.itemView.setBackgroundColor(getResources().getColor(R.color.color3));break;
+                    case 4: viewHolder.itemView.setBackgroundColor(getResources().getColor(R.color.color4));break;
+                    case 5: viewHolder.itemView.setBackgroundColor(getResources().getColor(R.color.color5));break;
+                    case 6: viewHolder.itemView.setBackgroundColor(getResources().getColor(R.color.color6));break;
+                    case 7: viewHolder.itemView.setBackgroundColor(getResources().getColor(R.color.color7));break;
+                    case 8: viewHolder.itemView.setBackgroundColor(getResources().getColor(R.color.color8));break;
+                    case 9: viewHolder.itemView.setBackgroundColor(getResources().getColor(R.color.color9));break;
+                    case 10: viewHolder.itemView.setBackgroundColor(getResources().getColor(R.color.color10));break;
+                    case 11: viewHolder.itemView.setBackgroundColor(getResources().getColor(R.color.color11));break;
+                    case 12: viewHolder.itemView.setBackgroundColor(getResources().getColor(R.color.color12));break;
+                }
+
                 viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

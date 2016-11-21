@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -29,7 +30,7 @@ public class OpenRoomActivity extends AppCompatActivity implements View.OnClickL
     int roomNum = 1000;
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference databaseReference = firebaseDatabase.getReference();
-    Button makeRoom,enterRoom;
+    ImageView makeRoom,enterRoom;
     EditText roomPwSet,roomPwChk;
     EditText getRoomName,roomPw;
     EditText roomName;
@@ -41,8 +42,8 @@ public class OpenRoomActivity extends AppCompatActivity implements View.OnClickL
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_open_room);
-        makeRoom = (Button)findViewById(R.id.makeRoom);
-        enterRoom = (Button)findViewById(R.id.enterRoom);
+        makeRoom = (ImageView) findViewById(R.id.makeRoom);
+        enterRoom = (ImageView) findViewById(R.id.enterRoom);
 
         makeRoom.setOnClickListener(this);
         enterRoom.setOnClickListener(this);
@@ -126,19 +127,6 @@ public class OpenRoomActivity extends AppCompatActivity implements View.OnClickL
                         .setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                mDatabase= FirebaseDatabase.getInstance().getReference();
-                                mDatabase.child("room/").child(getRoomName.getText().toString()).addListenerForSingleValueEvent(new ValueEventListener() {
-
-                                    @Override
-                                    public void onDataChange(DataSnapshot dataSnapshot) {
-                                        DBpass=dataSnapshot.getValue(String.class);
-                                        Log.d("#",DBpass);
-                                    }
-                                    @Override
-                                    public void onCancelled(DatabaseError databaseError) {
-
-                                    }
-                                });
                                 Boolean wantToCloseDialog = true;
                                 if(roomPwSet.getText().toString().equals(roomPwChk.getText().toString())) {
                                     Toast.makeText(OpenRoomActivity.this, "방에 입장하셨습니다. 어서오세요", Toast.LENGTH_SHORT).show();

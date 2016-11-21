@@ -18,6 +18,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import emirim.hs.kr.dormitory.models.Buy;
+import emirim.hs.kr.dormitory.models.Post;
+import emirim.hs.kr.dormitory.models.User;
 import emirim.hs.kr.dormitory.models.UserLogin;
 
 public class NewBuyActivity extends BaseActivity2 {
@@ -125,7 +127,7 @@ public class NewBuyActivity extends BaseActivity2 {
     private void writeNewBuy(String userId, String username, String title, String body) {
         // Create new post at /user-posts/$userid/$postid and at
         // /posts/$postid simultaneously
-        String key = mDatabase.child("buy").child(S.roomNameP).push().getKey();
+        String key = mDatabase.child("buy").push().getKey();
         Buy buy = new Buy(userId, username, title, body);
         Map<String, Object> buyValues = buy.toMap();
 

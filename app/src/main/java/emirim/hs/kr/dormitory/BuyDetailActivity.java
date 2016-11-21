@@ -25,8 +25,6 @@ import java.util.List;
 
 import emirim.hs.kr.dormitory.models.Buy;
 import emirim.hs.kr.dormitory.models.Comment;
-import emirim.hs.kr.dormitory.models.Post;
-import emirim.hs.kr.dormitory.models.User;
 import emirim.hs.kr.dormitory.models.UserLogin;
 
 public class BuyDetailActivity extends BaseActivity2 implements View.OnClickListener {
@@ -61,7 +59,7 @@ public class BuyDetailActivity extends BaseActivity2 implements View.OnClickList
 
         // Initialize Database
         mBuyReference = FirebaseDatabase.getInstance().getReference()
-                .child("buy").child(mBuyKey);
+                .child("buy").child(S.roomNameP).child(mBuyKey);
         mCommentsReference = FirebaseDatabase.getInstance().getReference()
                 .child("buy-comments").child(mBuyKey);
 
