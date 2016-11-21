@@ -5,15 +5,15 @@ package emirim.hs.kr.dormitory.models;
  */
 
 public class Room {
-    public int roomNumber;
+    public String roomName;
     public String password;
 
     public Room() {
 
     }
 
-    public Room(int roomNumber, String password) {
-        this.roomNumber = roomNumber;
+    public Room(String roomName, String password) {
+        this.roomName = roomName;
         this.password = password;
     }
 }

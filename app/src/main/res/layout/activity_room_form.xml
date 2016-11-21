@@ -11,17 +11,19 @@
     android:orientation="vertical">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="방 번호 : " />
-        <TextView
-            android:id="@+id/room_ran_num"
+            android:text="방 이름 : " />
+        <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="" />
-
+            android:maxLength="20"
+            android:singleLine="true"
+            android:hint="방 이름 입력"
+            android:id="@+id/room_name_set" />
     </LinearLayout>
 
     <LinearLayout

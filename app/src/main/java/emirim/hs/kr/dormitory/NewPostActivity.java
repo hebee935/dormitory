@@ -13,8 +13,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
 import emirim.hs.kr.dormitory.models.Post;
-import emirim.hs.kr.dormitory.models.User;
 import emirim.hs.kr.dormitory.models.UserLogin;
 
 import java.util.HashMap;
@@ -126,12 +126,12 @@ public class NewPostActivity extends BaseActivity2 {
     private void writeNewPost(String userId, String username, String title, String body) {
         // Create new post at /user-posts/$userid/$postid and at
         // /posts/$postid simultaneously
-        String key = mDatabase.child("posts").push().getKey();
+        String key = mDatabase.child("posts").child(S.roomNameP).push().getKey();
         Post post = new Post(userId, username, title, body);
         Map<String, Object> postValues = post.toMap();
 
         Map<String, Object> childUpdates = new HashMap<>();
-        childUpdates.put("/posts/" + key, postValues);
+        childUpdates.put("/posts/"+S.roomNameP+"/" + key, postValues);
         childUpdates.put("/user-posts/" + userId + "/" + key, postValues);
 
         mDatabase.updateChildren(childUpdates);

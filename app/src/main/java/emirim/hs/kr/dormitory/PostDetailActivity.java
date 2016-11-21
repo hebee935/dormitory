@@ -59,7 +59,7 @@ public class PostDetailActivity extends BaseActivity2 implements View.OnClickLis
 
         // Initialize Database
         mPostReference = FirebaseDatabase.getInstance().getReference()
-                .child("posts").child(mPostKey);
+                .child("posts").child(S.roomNameP).child(mPostKey);
         mCommentsReference = FirebaseDatabase.getInstance().getReference()
                 .child("post-comments").child(mPostKey);
 

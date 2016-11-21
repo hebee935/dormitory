@@ -21,6 +21,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.Transaction;
 import emirim.hs.kr.dormitory.PostDetailActivity;
 import emirim.hs.kr.dormitory.R;
+import emirim.hs.kr.dormitory.S;
 import emirim.hs.kr.dormitory.models.Post;
 import emirim.hs.kr.dormitory.viewholder.PostViewHolder;
 
@@ -86,9 +87,9 @@ public abstract class PostListFragment extends Fragment {
 
                 // Determine if the current user has liked this post and set UI accordingly
                 if (model.stars.containsKey(getUid())) {
-                    viewHolder.starView.setImageResource(R.drawable.ic_toggle_star_24);
+                    viewHolder.starView.setImageResource(R.drawable.bbb);
                 } else {
-                    viewHolder.starView.setImageResource(R.drawable.ic_toggle_star_outline_24);
+                    viewHolder.starView.setImageResource(R.drawable.aaa);
                 }
 
                 // Bind Post to ViewHolder, setting OnClickListener for the star button
@@ -96,7 +97,7 @@ public abstract class PostListFragment extends Fragment {
                     @Override
                     public void onClick(View starView) {
                         // Need to write to both places the post is stored
-                        DatabaseReference globalPostRef = mDatabase.child("posts").child(postRef.getKey());
+                        DatabaseReference globalPostRef = mDatabase.child("posts").child(S.roomNameP).child(postRef.getKey());
                         DatabaseReference userPostRef = mDatabase.child("user-posts").child(model.uid).child(postRef.getKey());
 
                         // Run two transactions

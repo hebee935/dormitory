@@ -2,13 +2,11 @@ package emirim.hs.kr.dormitory;
 
         import android.content.Intent;
 
-        import android.graphics.drawable.Icon;
         import android.os.Bundle;
         import android.support.design.widget.TabLayout;
         import android.support.v4.app.Fragment;
         import android.support.v4.app.FragmentPagerAdapter;
         import android.support.v4.view.ViewPager;
-        import android.support.v7.widget.Toolbar;
         import android.view.Menu;
         import android.view.MenuItem;
         import android.view.View;
@@ -16,7 +14,6 @@ package emirim.hs.kr.dormitory;
 
         import com.google.firebase.auth.FirebaseAuth;
 
-        import emirim.hs.kr.dormitory.fragment.MyPostsFragment;
         import emirim.hs.kr.dormitory.fragment.RecentBuyFragment;
         import emirim.hs.kr.dormitory.fragment.RecentPostsFragment;
 
@@ -33,6 +30,12 @@ public class  MainActivity extends BaseActivity {
             R.drawable.this2,
             R.drawable.this3,
             R.drawable.this4
+    };
+    private final int[] thisIcons = {
+            R.drawable.this1_1,
+            R.drawable.this2_2,
+            R.drawable.this3_2,
+            R.drawable.this4_4
     };
 
     @Override
@@ -71,7 +74,7 @@ public class  MainActivity extends BaseActivity {
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mPagerAdapter);
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        final TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
         for(int i=0;i<tabLayout.getTabCount();i++) {
             tabLayout.getTabAt(i).setIcon(ICONS[i]);
@@ -90,24 +93,52 @@ public class  MainActivity extends BaseActivity {
                         canexit=0;
                         findViewById(R.id.fab_new_post).setVisibility(View.GONE);
                         findViewById(R.id.fab_new_buy).setVisibility(View.GONE);
+                        for(int i=0;i<tabLayout.getTabCount();i++){
+                            if(i==position){
+                                tabLayout.getTabAt(i).setIcon(ICONS[i]);
+                            }else {
+                                tabLayout.getTabAt(i).setIcon(thisIcons[i]);
+                            }
+                        }
                         break;
                     case 1:
                         getSupportActionBar().setTitle("사오렴");
                         canexit=1;
                         findViewById(R.id.fab_new_post).setVisibility(View.GONE);
                         findViewById(R.id.fab_new_buy).setVisibility(View.VISIBLE);
+                        for(int i=0;i<tabLayout.getTabCount();i++){
+                            if(i==position){
+                                tabLayout.getTabAt(i).setIcon(ICONS[i]);
+                            }else {
+                                tabLayout.getTabAt(i).setIcon(thisIcons[i]);
+                            }
+                        }
                         break;
                     case 2:
                         getSupportActionBar().setTitle("같이해");
                         canexit=2;
                         findViewById(R.id.fab_new_post).setVisibility(View.VISIBLE);
                         findViewById(R.id.fab_new_buy).setVisibility(View.GONE);
+                        for(int i=0;i<tabLayout.getTabCount();i++){
+                            if(i==position){
+                                tabLayout.getTabAt(i).setIcon(ICONS[i]);
+                            }else {
+                                tabLayout.getTabAt(i).setIcon(thisIcons[i]);
+                            }
+                        }
                         break;
                     case 3:
                         getSupportActionBar().setTitle("모르지");
                         canexit=3;
                         findViewById(R.id.fab_new_post).setVisibility(View.GONE);
                         findViewById(R.id.fab_new_buy).setVisibility(View.GONE);
+                        for(int i=0;i<tabLayout.getTabCount();i++){
+                            if(i==position){
+                                tabLayout.getTabAt(i).setIcon(ICONS[i]);
+                            }else {
+                                tabLayout.getTabAt(i).setIcon(thisIcons[i]);
+                            }
+                        }
                 }
             }
 

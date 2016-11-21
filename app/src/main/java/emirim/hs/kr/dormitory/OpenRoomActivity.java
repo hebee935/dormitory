@@ -5,19 +5,20 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import emirim.hs.kr.dormitory.models.Room;
-import emirim.hs.kr.dormitory.models.User;
 import emirim.hs.kr.dormitory.models.UserLogin;
 
 /**
@@ -30,9 +31,11 @@ public class OpenRoomActivity extends AppCompatActivity implements View.OnClickL
     private DatabaseReference databaseReference = firebaseDatabase.getReference();
     Button makeRoom,enterRoom;
     EditText roomPwSet,roomPwChk;
-    EditText roomNumber,roomPw;
-    TextView roomNumberRandom;
+    EditText getRoomName,roomPw;
+    EditText roomName;
     String passwd;
+    String DBpass;
+    private DatabaseReference mDatabase;
     int canClose=0;
     UserLogin userid;
     public void onCreate(Bundle savedInstanceState){
@@ -57,8 +60,7 @@ public class OpenRoomActivity extends AppCompatActivity implements View.OnClickL
                 AlertDialog.Builder buider1= new AlertDialog.Builder(this);
                 buider1.setTitle("방 생성하기");
                 buider1.setView(dialogView1);
-                roomNumberRandom = (TextView)dialogView1.findViewById(R.id.room_ran_num);
-                roomNumberRandom.setText("새ㅔ빈");
+                roomName = (EditText)dialogView1.findViewById(R.id.room_name_set);
                 roomPwSet = (EditText) dialogView1.findViewById(R.id.room_pw_set);
                 roomPwChk = (EditText)dialogView1.findViewById(R.id.room_pw_chk);
                 buider1.setPositiveButton("Create", new DialogInterface.OnClickListener() {
@@ -81,11 +83,10 @@ public class OpenRoomActivity extends AppCompatActivity implements View.OnClickL
                             public void onClick(View v) {
                                 Boolean wantToCloseDialog = true;
                                 if(roomPwSet.getText().toString().equals(roomPwChk.getText().toString())) {
-
+                                    S.roomNameP = roomName.getText().toString();
                                     passwd = roomPwSet.getText().toString();
-                                    Room room = new Room(roomNum,passwd);
-                                    databaseReference.child("room").push().setValue(room);
-                                    //databaseReference.child("room").child("user").push().setValue("유저아이디"); 어떻게 가져올까 Silver Rain 아............?
+                                    Room room = new Room(S.roomNameP,passwd);
+                                    databaseReference.child("room").child(S.roomNameP).push().setValue(room);
                                     Toast.makeText(OpenRoomActivity.this, "새로운 방을 생성했습니다", Toast.LENGTH_SHORT).show();
                                     wantToCloseDialog = true;
                                 }else{
@@ -105,7 +106,7 @@ public class OpenRoomActivity extends AppCompatActivity implements View.OnClickL
                 AlertDialog.Builder buider2= new AlertDialog.Builder(this);
                 buider2.setTitle("방 입장하기");
                 buider2.setView(dialogView2);
-                roomNumber = (EditText) dialogView2.findViewById(R.id.inputRoomNumber);
+                getRoomName = (EditText) dialogView2.findViewById(R.id.inputRoomNumber);
                 roomPw = (EditText)dialogView2.findViewById(R.id.inputPasswd);
                 buider2.setPositiveButton("Complite", new DialogInterface.OnClickListener() {
                     @Override
@@ -125,6 +126,19 @@ public class OpenRoomActivity extends AppCompatActivity implements View.OnClickL
                         .setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+                                mDatabase= FirebaseDatabase.getInstance().getReference();
+                                mDatabase.child("room/").child(getRoomName.getText().toString()).addListenerForSingleValueEvent(new ValueEventListener() {
+
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        DBpass=dataSnapshot.getValue(String.class);
+                                        Log.d("#",DBpass);
+                                    }
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+
+                                    }
+                                });
                                 Boolean wantToCloseDialog = true;
                                 if(roomPwSet.getText().toString().equals(roomPwChk.getText().toString())) {
                                     Toast.makeText(OpenRoomActivity.this, "방에 입장하셨습니다. 어서오세요", Toast.LENGTH_SHORT).show();
