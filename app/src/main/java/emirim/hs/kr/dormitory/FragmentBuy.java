@@ -18,7 +18,7 @@ public class FragmentBuy extends Fragment {
     ImageView imgV;
     public FragmentBuy(){}
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        RelativeLayout v=(RelativeLayout) inflater.inflate(R.layout.fragment_buy, container, false);
+        RelativeLayout v=(RelativeLayout) inflater.inflate(git R.layout.fragment_buy, container, false);
         return v;
     }
     View.OnClickListener mHandler=new View.OnClickListener() {
