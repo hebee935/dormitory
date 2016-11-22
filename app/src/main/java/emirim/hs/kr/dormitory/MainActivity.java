@@ -76,9 +76,10 @@ public class  MainActivity extends BaseActivity {
         mViewPager.setAdapter(mPagerAdapter);
         final TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
-        for(int i=0;i<tabLayout.getTabCount();i++) {
-            tabLayout.getTabAt(i).setIcon(ICONS[i]);
-        }
+        tabLayout.getTabAt(0).setIcon(ICONS[0]);
+        tabLayout.getTabAt(1).setIcon(thisIcons[1]);
+        tabLayout.getTabAt(2).setIcon(thisIcons[2]);
+        tabLayout.getTabAt(3).setIcon(thisIcons[3]);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
