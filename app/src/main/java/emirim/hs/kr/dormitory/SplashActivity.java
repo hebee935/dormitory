@@ -2,6 +2,7 @@ package emirim.hs.kr.dormitory;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.hardware.camera2.params.Face;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;

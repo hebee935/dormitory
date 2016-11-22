@@ -28,7 +28,6 @@ import emirim.hs.kr.dormitory.models.UserLogin;
  */
 
 public class OpenRoomActivity extends AppCompatActivity implements View.OnClickListener{
-    int roomNum = 1000;
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference databaseReference = firebaseDatabase.getReference();
     private static final String REQUIRED = "입력해주세요";
@@ -37,11 +36,10 @@ public class OpenRoomActivity extends AppCompatActivity implements View.OnClickL
     EditText getRoomName,roomPw;
     EditText roomName;
     String passwd;
-    String DBroom;
-    String DBpass;
+    String DBroom=null;
+    String DBpass=null;
+    String searchRoomPass,searchRoom;
     private DatabaseReference mDatabase;
-    int canClose=0;
-    UserLogin userid;
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_open_room);
@@ -50,7 +48,6 @@ public class OpenRoomActivity extends AppCompatActivity implements View.OnClickL
 
         makeRoom.setOnClickListener(this);
         enterRoom.setOnClickListener(this);
-
     }
 
     @Override
@@ -67,13 +64,13 @@ public class OpenRoomActivity extends AppCompatActivity implements View.OnClickL
                 roomName = (EditText)dialogView1.findViewById(R.id.room_name_set);
                 roomPwSet = (EditText) dialogView1.findViewById(R.id.room_pw_set);
                 roomPwChk = (EditText)dialogView1.findViewById(R.id.room_pw_chk);
-                buider1.setPositiveButton("Create", new DialogInterface.OnClickListener() {
+                buider1.setPositiveButton("생성", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 
                     }
                 });
-                buider1.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                buider1.setNegativeButton("취소", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Toast.makeText(OpenRoomActivity.this, "방 생성을 취소합니다", Toast.LENGTH_SHORT).show();
@@ -106,7 +103,7 @@ public class OpenRoomActivity extends AppCompatActivity implements View.OnClickL
                                     databaseReference.child("room").child(S.roomNameP).push().setValue(room);
                                     databaseReference.child("room_num").child(S.roomNameP).child("password").setValue(S.roomPassword);
                                     databaseReference.child("room_num").child(S.roomNameP).child("roomNum").setValue(S.roomNameP);
-                                    Toast.makeText(OpenRoomActivity.this, "새로운 방을 생성했습니다", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(OpenRoomActivity.this, "새로운 방"+S.roomNameP+"을(를) 생성했습니다", Toast.LENGTH_SHORT).show();
                                     wantToCloseDialog = true;
                                 }else{
                                     Toast.makeText(OpenRoomActivity.this, "비밀번호가 서로 다릅니다. 동일하게 입력해주세요.", Toast.LENGTH_SHORT).show();
@@ -150,15 +147,38 @@ public class OpenRoomActivity extends AppCompatActivity implements View.OnClickL
 
                                 //if( mDatabase.child("room/"+getRoomName.getText().toString() != )
                                 //String searchRoom = "room_num/"+getRoomName.getText().toString()+"/password";
-                                String searchRoom = "room_num/"+getRoomName.getText().toString()+"/roomNum";
+                                searchRoom = "room_num/"+getRoomName.getText().toString()+"/roomNum";
                                 mDatabase.child(searchRoom).addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
 
                                     public void onDataChange(DataSnapshot dataSnapshot) {
                                         try {
                                             DBroom = dataSnapshot.getValue(String.class);
-                                            // Log.d("##",DBroom);
-                                        }catch(Exception e){}
+                                            searchRoomPass = "room_num/" + getRoomName.getText().toString() + "/password";
+                                            mDatabase.child(searchRoomPass).addListenerForSingleValueEvent(new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(DataSnapshot dataSnapshots) {
+                                                    try {
+                                                        DBpass = dataSnapshots.getValue(String.class);
+                                                        if(roomPw.getText().toString().equals(DBpass)){
+                                                            Toast.makeText(OpenRoomActivity.this,DBroom+"(으)로 입장합니다. 환영합니다.",Toast.LENGTH_SHORT).show();
+                                                            dialog2.dismiss();
+                                                            S.roomNameP = DBroom;
+                                                            startActivity(new Intent(OpenRoomActivity.this,MainActivity.class));
+                                                        }
+                                                    } catch (Exception es) {
+                                                        Toast.makeText(OpenRoomActivity.this,"입력하신 방 이름과 비밀번호가 일치하지 않습니다.",Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void onCancelled(DatabaseError databaseError) {
+
+                                                }
+                                            });
+                                        }catch(Exception e){
+                                            Toast.makeText(OpenRoomActivity.this,"입력하신 방 이름이 존재하지 않습니다.",Toast.LENGTH_SHORT).show();
+                                        }
 
                                     }
                                     @Override
@@ -166,38 +186,7 @@ public class OpenRoomActivity extends AppCompatActivity implements View.OnClickL
 
                                     }
                                 });
-                                String searchRoomPass = "room_num/"+getRoomName.getText().toString()+"/password";
-                                mDatabase.child(searchRoomPass).addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
 
-                                    public void onDataChange(DataSnapshot dataSnapshot) {
-                                        try {
-                                            DBpass = dataSnapshot.getValue(String.class);
-                                            Log.d("@@", DBpass);
-                                        }catch (Exception e){}
-
-                                    }
-                                    @Override
-                                    public void onCancelled(DatabaseError databaseError) {
-
-                                    }
-                                });
-                                if(!((DBpass ==null) && (DBroom == null))) {
-//roomPwSet.getText().toString().equals(roomPwChk.getText().toString())
-                                    S.roomNameP = getRoomName.getText().toString();
-                                    Toast.makeText(OpenRoomActivity.this, "방에 입장하셨습니다. 어서오세요", Toast.LENGTH_SHORT).show();
-                                    wantToCloseDialog = true;
-                                }else if(DBpass!=null){
-                                    Toast.makeText(OpenRoomActivity.this,"존재하지 않는 방입니다.",Toast.LENGTH_SHORT).show();
-                                    wantToCloseDialog = false;
-                                }else{
-                                    Toast.makeText(OpenRoomActivity.this, "방 번호와 비밀번호가 일치하지 않습니다.", Toast.LENGTH_SHORT).show();
-                                    wantToCloseDialog = false;
-                                }
-                                if (wantToCloseDialog) {
-                                    dialog2.dismiss();
-                                    startActivity(new Intent(OpenRoomActivity.this,MainActivity.class));
-                                }
                             }
                         });
                 break;

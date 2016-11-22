@@ -17,7 +17,7 @@ package emirim.hs.kr.dormitory;
         import emirim.hs.kr.dormitory.fragment.RecentBuyFragment;
         import emirim.hs.kr.dormitory.fragment.RecentPostsFragment;
 
-public class  MainActivity extends BaseActivity {
+public class  MainActivity extends BaseActivity2 {
 
     private static final String TAG = "MainActivity";
     private final long FINISH_INTERVAL_TIME = 2000;
@@ -175,7 +175,7 @@ public class  MainActivity extends BaseActivity {
         int i = item.getItemId();
         if (i == R.id.action_logout) {
             FirebaseAuth.getInstance().signOut();
-            startActivity(new Intent(this, FacebookLoginActivity.class));
+            startActivity(new Intent(this, SplashActivity.class));
             finish();
             return true;
         } else {

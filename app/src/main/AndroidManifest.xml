@@ -33,7 +33,6 @@
         <activity android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name" />
-        <activity android:name=".BaseActivity"/>
         <activity android:name=".FacebookLoginActivity">
         </activity>
         <activity android:name=".OpenRoomActivity">

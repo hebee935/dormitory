@@ -40,13 +40,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import java.io.BufferedInputStream;
-import java.net.URLConnection;
-
 import emirim.hs.kr.dormitory.models.UserLogin;
 
 /**
@@ -76,7 +71,6 @@ public class FacebookLoginActivity extends BaseActivity2 implements
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_facebook);
-
         // Views
         findViewById(R.id.button_facebook_signout).setOnClickListener(this);
 
@@ -113,8 +107,6 @@ public class FacebookLoginActivity extends BaseActivity2 implements
             }
         };
         // [END auth_state_listener]
-        startActivity(new Intent(FacebookLoginActivity.this,OpenRoomActivity.class));
-        finish();
         // [START initialize_fblogin]
         // Initialize Facebook Login button
         mCallbackManager = CallbackManager.Factory.create();
@@ -126,6 +118,7 @@ public class FacebookLoginActivity extends BaseActivity2 implements
                 Log.d(TAG, "facebook:onSuccess:" + loginResult);
                // Log.d(TAG, "아아아아" + getUid() + "/" + name + "/" + email );
                 //writeNewUser(uid,name,email);
+
                 handleFacebookAccessToken(loginResult.getAccessToken());
 
             }
@@ -172,6 +165,7 @@ public class FacebookLoginActivity extends BaseActivity2 implements
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         mCallbackManager.onActivityResult(requestCode, resultCode, data);
+
     }
 
     // [START auth_with_facebook]
@@ -207,7 +201,6 @@ public class FacebookLoginActivity extends BaseActivity2 implements
     public void signOut() {
         mAuth.signOut();
         LoginManager.getInstance().logOut();
-
         updateUI(null);
     }
 

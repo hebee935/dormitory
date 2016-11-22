@@ -12,19 +12,28 @@ import android.widget.RelativeLayout;
 
 import com.facebook.share.model.AppInviteContent;
 import com.facebook.share.widget.AppInviteDialog;
+import com.google.firebase.auth.FirebaseAuth;
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by Eun bee on 2016-delete_things-01.
  */
 
 public class FragmentProfile extends Fragment {
-    ImageView addFriends;
+    ImageView roomLeader,roomate1,roomate2,roomate3;
     String appLinkUrl, previewImageUrl;
     public FragmentProfile() {
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         RelativeLayout v = (RelativeLayout) inflater.inflate(R.layout.fragment_profile, container, false);
+        roomLeader = (ImageView)v.findViewById(R.id.roomLeader);
+        roomate1 = (ImageView)v.findViewById(R.id.roomate1);
+        roomate2 = (ImageView)v.findViewById(R.id.roomate2);
+        roomate3 = (ImageView)v.findViewById(R.id.roomate3);
+//        Picasso.with(v.getContext())
+//                .load()
+//                .into(roomLeader);
         return v;
     }
     View.OnClickListener bHandler = new View.OnClickListener() {
@@ -44,4 +53,5 @@ public class FragmentProfile extends Fragment {
             }
         }
     };
+
 }
