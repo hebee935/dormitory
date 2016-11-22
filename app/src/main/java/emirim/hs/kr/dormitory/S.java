@@ -6,4 +6,5 @@ package emirim.hs.kr.dormitory;
 
 public class S {
     public static String roomNameP;
+    public static String roomPassword;
 }

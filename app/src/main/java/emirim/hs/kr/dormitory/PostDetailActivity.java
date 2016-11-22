@@ -19,7 +19,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import emirim.hs.kr.dormitory.models.User;
 import emirim.hs.kr.dormitory.models.Comment;
 import emirim.hs.kr.dormitory.models.Post;
 import emirim.hs.kr.dormitory.models.UserLogin;

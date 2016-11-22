@@ -51,8 +51,6 @@
             android:theme="@style/AppTheme">
 
         </activity>
-        <activity android:name=".SignInActivity">
-        </activity>
         <activity android:name=".NewPostActivity"
             android:windowSoftInputMode="adjustResize"/>
 

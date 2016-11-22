@@ -18,8 +18,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import emirim.hs.kr.dormitory.models.Buy;
-import emirim.hs.kr.dormitory.models.Post;
-import emirim.hs.kr.dormitory.models.User;
 import emirim.hs.kr.dormitory.models.UserLogin;
 
 public class NewBuyActivity extends BaseActivity2 {

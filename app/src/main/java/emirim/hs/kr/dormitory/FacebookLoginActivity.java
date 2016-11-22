@@ -97,24 +97,10 @@ public class FacebookLoginActivity extends BaseActivity2 implements
                     name = user.getDisplayName();
                     email = user.getEmail();
                     photoUrl = user.getPhotoUrl();
-                    UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                            .setDisplayName("Jane Q. User")
-                            .setPhotoUri(Uri.parse("https://example.com/jane-q-user/profile.jpg"))
-                            .build();
+                    Log.d(TAG,"photo"+photoUrl);
 
-                    user.updateProfile(profileUpdates)
-                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if (task.isSuccessful()) {
-                                        Log.d(TAG, "User profile updated.");
-                                    }
-                                }
-                            });
-                    // The user's ID, unique to the Firebase project. Do NOT use this value to
-                    // authenticate with your backend server, if you have one. Use
-                    // FirebaseUser.getToken() instead.
-                    String uid = user.getUid();
+                    // 읽어온 name, email, photourl
+                    writeNewUser(user.getUid(),name,email,photoUrl);
                     startActivity(new Intent(FacebookLoginActivity.this,OpenRoomActivity.class));
                     finish();
                 } else {
@@ -127,7 +113,8 @@ public class FacebookLoginActivity extends BaseActivity2 implements
             }
         };
         // [END auth_state_listener]
-
+        startActivity(new Intent(FacebookLoginActivity.this,OpenRoomActivity.class));
+        finish();
         // [START initialize_fblogin]
         // Initialize Facebook Login button
         mCallbackManager = CallbackManager.Factory.create();
@@ -137,8 +124,10 @@ public class FacebookLoginActivity extends BaseActivity2 implements
             @Override
             public void onSuccess(LoginResult loginResult) {
                 Log.d(TAG, "facebook:onSuccess:" + loginResult);
-                writeNewUser(loginResult.toString(),name,email);
+               // Log.d(TAG, "아아아아" + getUid() + "/" + name + "/" + email );
+                //writeNewUser(uid,name,email);
                 handleFacebookAccessToken(loginResult.getAccessToken());
+
             }
 
             @Override
@@ -183,7 +172,6 @@ public class FacebookLoginActivity extends BaseActivity2 implements
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         mCallbackManager.onActivityResult(requestCode, resultCode, data);
-        startActivity(new Intent(FacebookLoginActivity.this,OpenRoomActivity.class));
     }
 
     // [START auth_with_facebook]
@@ -199,7 +187,6 @@ public class FacebookLoginActivity extends BaseActivity2 implements
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
-
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
@@ -242,9 +229,13 @@ public class FacebookLoginActivity extends BaseActivity2 implements
             signOut();
         }
     }
-    private void writeNewUser(String userId, String name, String email) {
-        UserLogin user = new UserLogin(name, email);
-
+    private void writeNewUser(String userId, String name, String email,Uri photoUrl) {
+        UserLogin user;
+        if(photoUrl!=null){
+            user = new UserLogin(name,email,photoUrl);
+        }else {
+            user = new UserLogin(name, email);
+        }
         mDatabase.child("users").child(userId).setValue(user);
     }
 }
