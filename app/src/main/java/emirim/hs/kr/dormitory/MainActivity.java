@@ -191,7 +191,7 @@ public class  MainActivity extends BaseActivity {
             case 0:
                 if (0 <= intervalTime && FINISH_INTERVAL_TIME >= intervalTime)
                 {
-                    super.onBackPressed();
+                    android.os.Process.killProcess(android.os.Process.myPid());
                 }
                 else
                 {

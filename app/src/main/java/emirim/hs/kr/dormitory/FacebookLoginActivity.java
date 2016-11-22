@@ -111,14 +111,14 @@ public class FacebookLoginActivity extends BaseActivity2 implements
                                     }
                                 }
                             });
-
                     // The user's ID, unique to the Firebase project. Do NOT use this value to
                     // authenticate with your backend server, if you have one. Use
                     // FirebaseUser.getToken() instead.
                     String uid = user.getUid();
+                    startActivity(new Intent(FacebookLoginActivity.this,OpenRoomActivity.class));
+                    finish();
                 } else {
                     // User is signed out
-                    startActivity(new Intent(FacebookLoginActivity.this,OpenRoomActivity.class));
                     Log.d(TAG, "onAuthStateChanged:signed_out");
                 }
                 // [START_EXCLUDE]

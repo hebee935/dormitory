@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +31,7 @@ public class OpenRoomActivity extends AppCompatActivity implements View.OnClickL
     int roomNum = 1000;
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference databaseReference = firebaseDatabase.getReference();
+    private static final String REQUIRED = "입력해주세요";
     ImageView makeRoom,enterRoom;
     EditText roomPwSet,roomPwChk;
     EditText getRoomName,roomPw;
@@ -82,13 +84,21 @@ public class OpenRoomActivity extends AppCompatActivity implements View.OnClickL
                         .setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+                                if (TextUtils.isEmpty(roomPwSet.getText().toString())) {
+                                    roomPwSet.setError(REQUIRED);
+                                    return;
+                                }
+                                if (TextUtils.isEmpty(roomPwChk.getText().toString())) {
+                                    roomPwChk.setError(REQUIRED);
+                                    return;
+                                }
                                 Boolean wantToCloseDialog = true;
                                 if(roomPwSet.getText().toString().equals(roomPwChk.getText().toString())) {
                                     S.roomNameP = roomName.getText().toString();
                                     passwd = roomPwSet.getText().toString();
                                     Room room = new Room(S.roomNameP,passwd);
                                     databaseReference.child("room").child(S.roomNameP).push().setValue(room);
-                                    Toast.makeText(OpenRoomActivity.this, "새로운 방을 생성했습니다", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(OpenRoomActivity.this, "새로운 방"+S.roomNameP+"을(를) 생성했습니다", Toast.LENGTH_SHORT).show();
                                     wantToCloseDialog = true;
                                 }else{
                                     Toast.makeText(OpenRoomActivity.this, "비밀번호가 서로 다릅니다. 동일하게 입력해주세요.", Toast.LENGTH_SHORT).show();
@@ -129,7 +139,7 @@ public class OpenRoomActivity extends AppCompatActivity implements View.OnClickL
                             public void onClick(View v) {
                                 Boolean wantToCloseDialog = true;
                                 if(roomPwSet.getText().toString().equals(roomPwChk.getText().toString())) {
-                                    Toast.makeText(OpenRoomActivity.this, "방에 입장하셨습니다. 어서오세요", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(OpenRoomActivity.this, S.roomNameP+"에 입장하셨습니다. 어서오세요", Toast.LENGTH_SHORT).show();
                                     wantToCloseDialog = true;
                                 }else{
                                     //Toast.makeText(OpenRoomActivity.this, "방 번호와 비밀번호가 일치하지 않습니다.", Toast.LENGTH_SHORT).show();
