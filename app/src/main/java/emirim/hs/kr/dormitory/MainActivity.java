@@ -42,7 +42,7 @@ public class  MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        getSupportActionBar().setTitle("우리야");
+        getSupportActionBar().setTitle(S.roomNameP+"_우리야");
         // Create the adapter that will return a fragment for each section
         mPagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
             private final Fragment[] mFragments = new Fragment[] {
@@ -90,7 +90,7 @@ public class  MainActivity extends BaseActivity {
             public void onPageSelected(int position) {
                 switch(position){
                     case 0:
-                        getSupportActionBar().setTitle("우리야");
+                        getSupportActionBar().setTitle(S.roomNameP+"_우리야");
                         canexit=0;
                         findViewById(R.id.fab_new_post).setVisibility(View.GONE);
                         findViewById(R.id.fab_new_buy).setVisibility(View.GONE);
@@ -103,7 +103,7 @@ public class  MainActivity extends BaseActivity {
                         }
                         break;
                     case 1:
-                        getSupportActionBar().setTitle("사오렴");
+                        getSupportActionBar().setTitle(S.roomNameP+"_사오렴");
                         canexit=1;
                         findViewById(R.id.fab_new_post).setVisibility(View.GONE);
                         findViewById(R.id.fab_new_buy).setVisibility(View.VISIBLE);
@@ -116,7 +116,7 @@ public class  MainActivity extends BaseActivity {
                         }
                         break;
                     case 2:
-                        getSupportActionBar().setTitle("같이해");
+                        getSupportActionBar().setTitle(S.roomNameP+"_같이해");
                         canexit=2;
                         findViewById(R.id.fab_new_post).setVisibility(View.VISIBLE);
                         findViewById(R.id.fab_new_buy).setVisibility(View.GONE);
@@ -129,7 +129,7 @@ public class  MainActivity extends BaseActivity {
                         }
                         break;
                     case 3:
-                        getSupportActionBar().setTitle("모르지");
+                        getSupportActionBar().setTitle(S.roomNameP+"_모르지");
                         canexit=3;
                         findViewById(R.id.fab_new_post).setVisibility(View.GONE);
                         findViewById(R.id.fab_new_buy).setVisibility(View.GONE);
